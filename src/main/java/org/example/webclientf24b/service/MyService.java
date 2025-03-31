@@ -53,5 +53,18 @@ public class MyService {
         return students;
     }
 
+    public List<Student> fetchStudentsBlock() {
+        Mono<List<Student>> studentsMono = webClient
+                .get()
+                .uri("/students")
+                .accept(MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Student>>() {});
+
+
+        List<Student> students =  studentsMono.block();
+
+        return students;
+    }
 
 }
